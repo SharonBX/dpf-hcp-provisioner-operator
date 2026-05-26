@@ -22,7 +22,7 @@ echo "INFO: IPv6 connectivity established."
 
 echo "INFO: Waiting for host agent HTTP server..."
 while true; do
-    if curl -s -o /dev/null "http://[fe80::1%25tmfifo_net0]:11029/"; then
+    if curl -s -o /dev/null --connect-timeout 5 --max-time 10 "http://[fe80::1%25tmfifo_net0]:11029/"; then
         break
     fi
     ELAPSED=$(($(date +%s) - START))

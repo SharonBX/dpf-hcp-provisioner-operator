@@ -460,9 +460,12 @@ func (ig *IgnitionGenerator) buildTargetIgnition(hcpIgnitionBytes []byte, dpuFla
 	// Add flavor OVS script
 	ignition.AddFlavorOVSScript(targetIgnition, &dpuFlavor.Spec)
 
-	// Add DPU flavor YAML
+	// Add DPU flavor YAML and JSON
 	if err := ignition.AddDPUFlavorYAML(targetIgnition, dpuFlavor); err != nil {
 		return nil, fmt.Errorf("failed to add DPU flavor YAML: %w", err)
+	}
+	if err := ignition.AddDPUFlavorJSON(targetIgnition, dpuFlavor); err != nil {
+		return nil, fmt.Errorf("failed to add DPU flavor JSON: %w", err)
 	}
 
 	if mtu != 1500 {

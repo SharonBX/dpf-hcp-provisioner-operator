@@ -37,6 +37,7 @@ import (
 const compressionGzip = "gzip"
 
 const testIgnitionVersion = "3.4.0"
+const testDataSource = "data:,hello"
 
 const testMlnxBfConfPath = "/etc/mellanox/mlnx-bf.conf"
 
@@ -75,7 +76,7 @@ var _ = Describe("MarshalJSON", func() {
 
 	It("should preserve non-empty data", func() {
 		ign := NewEmptyIgnition("3.4.0")
-		source := "data:,hello"
+		source := testDataSource
 		ign.Storage.Files = append(ign.Storage.Files, igntypes.File{
 			Node:          igntypes.Node{Path: "/etc/test"},
 			FileEmbedded1: igntypes.FileEmbedded1{Contents: igntypes.Resource{Source: &source}},

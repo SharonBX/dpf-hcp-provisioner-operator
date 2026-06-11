@@ -30,7 +30,7 @@ var _ = Describe("ValidateConfig", func() {
 
 	It("should accept a valid ignition config with files", func() {
 		cfg := NewEmptyIgnition(testIgnitionVersion)
-		source := "data:,hello"
+		source := testDataSource
 		mode := 0644
 		overwrite := true
 		cfg.Storage.Files = append(cfg.Storage.Files, igntypes.File{
@@ -111,7 +111,7 @@ var _ = Describe("ValidateConfig", func() {
 		for _, version := range hypershiftVersions {
 			By("validating a config with files and units at version " + version)
 			cfg := NewEmptyIgnition(version)
-			source := "data:,hello"
+			source := testDataSource
 			mode := 0644
 			overwrite := true
 			cfg.Storage.Files = append(cfg.Storage.Files, igntypes.File{

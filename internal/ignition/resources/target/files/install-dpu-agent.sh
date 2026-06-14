@@ -9,9 +9,7 @@ fi
 
 echo "Installing dpu-agent..."
 
-DPUFLAVOR_FILE="/etc/dpf/dpuflavor.json"
-DPU_MODE=$(jq -r '.spec.dpuMode // "dpu"' "$DPUFLAVOR_FILE" 2>/dev/null || echo "dpu")
-is_zero_trust() { [ "$DPU_MODE" = "zero-trust" ]; }
+is_zero_trust() { [ "$DPUMode" = "zero-trust" ]; }
 
 install_error() {
     echo "ERROR: $1"

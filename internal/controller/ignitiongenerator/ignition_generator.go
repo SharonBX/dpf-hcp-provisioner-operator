@@ -478,12 +478,9 @@ func (ig *IgnitionGenerator) buildTargetIgnition(hcpIgnitionBytes []byte, dpuFla
 		return nil, fmt.Errorf("failed to merge flavor config files: %w", err)
 	}
 
-	// Add DPU flavor YAML and JSON
+	// Add DPU flavor YAML
 	if err := ignition.AddDPUFlavorYAML(targetIgnition, dpuFlavor); err != nil {
 		return nil, fmt.Errorf("failed to add DPU flavor YAML: %w", err)
-	}
-	if err := ignition.AddDPUFlavorJSON(targetIgnition, dpuFlavor); err != nil {
-		return nil, fmt.Errorf("failed to add DPU flavor JSON: %w", err)
 	}
 
 	if mtu != 1500 {

@@ -16,19 +16,20 @@ func NewProvider(zeroTrust bool) *content.EmbeddedProvider {
 	f := func(name string) []byte { return content.EmbedFile(filesFS, "files/"+name) }
 	nl := "%0A"
 
+	sp := "%20"
 	extraArgs := ""
 	if zeroTrust {
-		extraArgs = " --zero-trust-mode" +
-			" --bootstrap-kubeconfig=/var/lib/dpf/dpuagent/bootstrap-kubeconfig"
+		extraArgs = sp + "--zero-trust-mode" +
+			sp + "--bootstrap-kubeconfig=/var/lib/dpf/dpuagent/bootstrap-kubeconfig"
 	}
 
 	dpuAgentService := "data:," +
 		"[Unit]" + nl +
-		"Description=DPF DPU Agent - Provisioning and Configuration" + nl +
-		"After=tmfifo-agent-link.service install-dpu-agent.service dpu-fw-upgrade.service" + nl +
-		"Before=nodeip-configuration.service kubelet-dependencies.target ovs-configuration.service" + nl +
+		"Description=DPF" + sp + "DPU" + sp + "Agent" + sp + "-" + sp + "Provisioning" + sp + "and" + sp + "Configuration" + nl +
+		"After=tmfifo-agent-link.service" + sp + "install-dpu-agent.service" + sp + "dpu-fw-upgrade.service" + nl +
+		"Before=nodeip-configuration.service" + sp + "kubelet-dependencies.target" + sp + "ovs-configuration.service" + nl +
 		"Requires=tmfifo-agent-link.service" + nl +
-		"Wants=install-dpu-agent.service dpu-fw-upgrade.service" + nl +
+		"Wants=install-dpu-agent.service" + sp + "dpu-fw-upgrade.service" + nl +
 		"ConditionPathExists=/etc/mlnx-release" + nl +
 		"ConditionPathExists=/usr/local/bin/dpu-agent" + nl +
 		nl +
@@ -36,19 +37,19 @@ func NewProvider(zeroTrust bool) *content.EmbeddedProvider {
 		"Type=simple" + nl +
 		"EnvironmentFile=/etc/dpf/environment" + nl +
 		"ExecStart=/usr/local/bin/dpu-agent" +
-		" --dpu-name $DPUName" +
-		" --dpu-namespace $DPUNamespace" +
-		" --dpu-uid $DPUUID" +
-		" --dpuflavor /etc/dpf/dpuflavor.yaml" +
-		" --skip-containerd-config" +
-		" --skip-dns-config" +
-		" --skip-kernel-cmd-line" +
-		" --skip-network-config" +
-		" --skip-remove-builtin-kubelet" +
-		" --skip-configure-kubelet" +
-		" --skip-start-kubelet" +
-		" --skip-ovs-raw-script" +
-		" --kubeadm-secret-name=unused" +
+		sp + "--dpu-name" + sp + "$DPUName" +
+		sp + "--dpu-namespace" + sp + "$DPUNamespace" +
+		sp + "--dpu-uid" + sp + "$DPUUID" +
+		sp + "--dpuflavor" + sp + "/etc/dpf/dpuflavor.yaml" +
+		sp + "--skip-containerd-config" +
+		sp + "--skip-dns-config" +
+		sp + "--skip-kernel-cmd-line" +
+		sp + "--skip-network-config" +
+		sp + "--skip-remove-builtin-kubelet" +
+		sp + "--skip-configure-kubelet" +
+		sp + "--skip-start-kubelet" +
+		sp + "--skip-ovs-raw-script" +
+		sp + "--kubeadm-secret-name=unused" +
 		extraArgs + nl +
 		"Restart=on-failure" + nl +
 		"RestartSec=5" + nl +

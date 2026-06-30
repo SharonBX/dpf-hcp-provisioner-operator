@@ -451,7 +451,7 @@ func (ig *IgnitionGenerator) buildTargetIgnition(hcpIgnitionBytes []byte, dpuFla
 	}
 
 	// Add target content files and systemd units
-	targetProvider := target.NewProvider()
+	targetProvider := target.NewProvider(zeroTrust)
 	if err := igncontent.AddContent(targetIgnition, targetProvider); err != nil {
 		return nil, fmt.Errorf("failed to add target content: %w", err)
 	}

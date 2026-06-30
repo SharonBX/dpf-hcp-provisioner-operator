@@ -475,6 +475,18 @@ func (ig *IgnitionGenerator) buildTargetIgnition(hcpIgnitionBytes []byte, dpuFla
 		Contents: &unitContents,
 	})
 
+	if isZeroTrust {
+		for i, u := range targetIgnition.Systemd.Units {
+			if u.Name == "pf-monitor.service" {
+				targetIgnition.Systemd.Units[i] = igntypes.Unit{
+					Name: "pf-monitor.service",
+					Mask: ignition.Ptr(true),
+				}
+				break
+			}
+		}
+	}
+
 	// Add common content files and systemd units
 	commonProvider := common.NewProvider(isZeroTrust)
 	if err := igncontent.AddContent(targetIgnition, commonProvider); err != nil {

@@ -2,11 +2,6 @@
 
 exec > >(tee >(while read -r line; do /usr/local/bin/bflog.sh "$line"; done)) 2>&1
 
-if [ "$DPUMode" = "zero-trust" ]; then
-    echo "INFO: Zero-trust mode, skipping PF monitor (no host agent)"
-    sleep infinity
-fi
-
 POLL_INTERVAL=${PF_MONITOR_INTERVAL:-30}
 
 # Discover PF interfaces by type (not by name).

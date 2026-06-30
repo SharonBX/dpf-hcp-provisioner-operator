@@ -15,10 +15,10 @@ var filesFS embed.FS
 //go:embed systemd/*
 var systemdFS embed.FS
 
-func NewProvider() *content.EmbeddedProvider {
+func NewProvider(zeroTrust bool) *content.EmbeddedProvider {
 	f := func(name string) []byte { return content.EmbedFile(filesFS, "files/"+name) }
 
-	return &content.EmbeddedProvider{
+	p := &content.EmbeddedProvider{
 		Files: []content.FileDefinition{
 			{
 				Path:          "/etc/mellanox/mlnx-bf.conf",
@@ -122,6 +122,19 @@ func NewProvider() *content.EmbeddedProvider {
 		},
 		SystemdFS: &systemdFS,
 	}
+
+	if zeroTrust {
+		p.SkipUnits = []string{"pf-monitor.service"}
+		filtered := make([]content.FileDefinition, 0, len(p.Files))
+		for _, f := range p.Files {
+			if f.Path != "/usr/local/bin/pf-monitor.sh" {
+				filtered = append(filtered, f)
+			}
+		}
+		p.Files = filtered
+	}
+
+	return p
 }
 
 func RenderDPUAgentServiceUnit(zeroTrust bool) (string, string, error) {

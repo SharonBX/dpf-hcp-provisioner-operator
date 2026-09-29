@@ -1,15 +1,8 @@
-{{- $infra := lookup "config.openshift.io/v1" "Infrastructure" "" "cluster" }}
-{{- $workerRole := "worker-dpu" }}
-{{- if $infra }}
-  {{- if eq (dig "status" "controlPlaneTopology" "" $infra) "SingleReplica" }}
-    {{- $workerRole = "worker" }}
-  {{- end }}
-{{- end }}
 apiVersion: machineconfiguration.openshift.io/v1
 kind: MachineConfig
 metadata:
   labels:
-    machineconfiguration.openshift.io/role: {{ $workerRole }}
+    machineconfiguration.openshift.io/role: worker-dpu
     {{- include "dpu-worker-config.labels" . | nindent 4 }}
   name: dpu-worker-configuration
 spec:
